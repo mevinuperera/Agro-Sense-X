@@ -18,7 +18,7 @@ const char* PASSWORD = "qwerty1029";
 
 // === Firebase Credentials (WORKING one) ===
 #define FIREBASE_HOST "project-agro-sense-x-516a9-default-rtdb.asia-southeast1.firebasedatabase.app"
-#define FIREBASE_API_KEY "AIzaSyBOXWMzlkLFBw6AiF33O4lgfRONSO4saJI"
+#define FIREBASE_API_KEY "#######################################"
 
 // === Sensor Objects ===
 DHT dht(DHTPIN, DHTTYPE);
