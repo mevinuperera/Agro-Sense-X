@@ -14,7 +14,7 @@
 
 // === WiFi Credentials ===
 const char* SSID = "Test";
-const char* PASSWORD = "qwerty1029";
+const char* PASSWORD = "123456789";
 
 // === Firebase Credentials (WORKING one) ===
 #define FIREBASE_HOST "project-agro-sense-x-516a9-default-rtdb.asia-southeast1.firebasedatabase.app"
