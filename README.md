@@ -1,1 +1,1 @@
-# Agro-Sense-X
+This Greenhouse Admin Panel is a web-based application designed to monitor and manage environmental conditions within a greenhouse. It integrates real-time data from multiple sensors to track parameters such as temperature, humidity, soil moisture, and light intensity. The system enables efficient crop management by providing timely insights and alerts to optimize plant growth and resource usage. Built with modern web technologies, this project aims to support precision agriculture practices and improve productivity for greenhouse operators.
