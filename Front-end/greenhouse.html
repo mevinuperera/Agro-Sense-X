@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Greenhouse Dashboard</title>
+  <style>
+    :root {
+      --primary: #00b894;
+      --secondary: #0984e3;
+      --background: #f0f8ff;
+      --card-bg: rgba(255, 255, 255, 0.9);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://img.freepik.com/free-photo/green-grass-field-background_1252-1097.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: white;
+      text-shadow: 1px 1px 4px #000;
+      font-size: 2rem;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      width: 260px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #2d3436;
+    }
+
+    .icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--secondary);
+    }
+
+    .status {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 1rem;
+      margin-top: 10px;
+      display: inline-block;
+      color: white;
+      font-weight: 600;
+    }
+
+    .on {
+      background-color: #00b894;
+    }
+
+    .off {
+      background-color: #d63031;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 90%;
+      }
+
+      header {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+  <header>🌿 Smart Greenhouse Dashboard</header>
+
+  <div class="container" id="dashboard">
+    <div class="card">
+      <div class="icon">🌊</div>
+      <h2>Water Temperature</h2>
+      <div class="value" id="waterTemp">--</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌡️</div>
+      <h2>Air Temp & Humidity</h2>
+      <div class="value"><span id="airTemp">--</span> °C</div>
+      <div class="value"><span id="humidity">--</span> %</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🧪</div>
+      <h2>TDS Meter</h2>
+      <div class="value"><span id="tds">--</span> ppm</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌾</div>
+      <h2>Soil Moisture</h2>
+      <div class="value" id="moisture">--</div>
+    </div>
+  </div>
+
+  <div class="container" id="fanCards" style="display: none;">
+    <div class="card">
+      <div class="icon">💨</div>
+      <h2>Intake Fan</h2>
+      <span class="status on">ON</span>
+    </div>
+    <div class="card">
+      <div class="icon">💨</div>
+      <h2>Outtake Fan</h2>
+      <span class="status on">ON</span>
+    </div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBOXWMzlkLFBw6AiF33O4lgfRONSO4saJI",
+      databaseURL: "https://project-agro-sense-x-516a9-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const dbRef = firebase.database().ref("greenhouse");
+
+    dbRef.on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+
+        document.getElementById("waterTemp").innerText = data.ds18b20_temp ?? "--";
+        document.getElementById("airTemp").innerText = data.temp_dht11 ?? "--";
+        document.getElementById("humidity").innerText = data.humidity ?? "--";
+        document.getElementById("tds").innerText = data.tds ?? "--";
+        document.getElementById("moisture").innerText = data.soil_status ?? "--";
+
+        const fanCards = document.getElementById("fanCards");
+        if (data.temp_dht11 > 22) {
+          fanCards.style.display = "flex";
+        } else {
+          fanCards.style.display = "none";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
